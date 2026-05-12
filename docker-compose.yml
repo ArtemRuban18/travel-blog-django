@@ -1,0 +1,59 @@
+version: "3.9"
+x-common-variables-web: &common-web
+  SECRET_KEY: ${SECRET_KEY}
+  DEBUG: ${DEBUG}
+  ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+  EMAIL_HOST: ${EMAIL_HOST}
+  EMAIL_PORT: ${EMAIL_PORT}
+  EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+  EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+  EMAIL_USE_TLS: ${EMAIL_USE_TLS}
+  EMAIL_FROM_EMAIL: ${EMAIL_FROM_EMAIL}
+
+x-common-variables-db: &common-db
+  POSTGRES_DB: ${POSTGRES_DB}
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_HOST: ${POSTGRES_HOST}
+  POSTGRES_PORT: ${POSTGRES_PORT}
+
+services:
+  web:
+    build: .
+    container_name: travel_blog_web
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env 
+    restart: always
+    environment:
+      <<: *common-web
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+  db:
+    image: postgres:16
+    container_name: travel_blog_db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env 
+    restart: always
+    environment:
+      <<: *common-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} -h ${POSTGRES_HOST} -p ${POSTGRES_PORT}"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
