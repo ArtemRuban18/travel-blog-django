@@ -1,5 +1,29 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from .models import Post, Category, Comment
+from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def home(request):
-    return HttpResponse("Hello, World!")
+def post_list(request, category_slug = None):
+    posts = Post.published.all()
+    category = None
+    if category_slug:
+        category = get_object_or_404(Category, slug = category_slug)
+        posts = posts.filter(category__in = [category])
+
+    paginator = Paginator(posts, 9)
+    page_number = request.GET.get('page', 1)
+    try:
+        posts = paginator.page(page_number)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    return render(request, 'post_list.html', {'posts': posts})
+
+def post_detail(request, slug):
+    post = Post.published.get(slug = slug)
+    post_tags_ids = post.tags.values_list('id', flat = True)
+    similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
+    similar_posts = similar_posts(same_page = Count('tags')).order_by('-same_page', '-publish')[:4]
+    return render(request, 'post_detail.html')
+
