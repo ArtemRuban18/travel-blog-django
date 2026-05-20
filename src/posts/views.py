@@ -29,7 +29,7 @@ def post_detail(request, slug):
 
     #create comments for posts
     new_comment = None
-    if request.user.is_authenticated:
+    if request.user is authenticate:
         if request.method == 'POST':
             form = CommentForm(request.POST)
             if form.is_valid():
