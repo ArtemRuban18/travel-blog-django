@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category, Comment
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import authenticate
 from .forms import CommentForm
 
 def post_list(request, category_slug = None):
@@ -26,7 +25,13 @@ def post_detail(request, slug):
     post = Post.published.get(slug = slug)
     post_tags_ids = post.tags.values_list('id', flat = True)
     similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
-    similar_posts = similar_posts(same_page = Count('tags')).order_by('-same_page', '-publish')[:4]
+    similar_posts = similar_posts.annotate(
+    same_page=Count('tags')
+).order_by('-same_page', '-publish')[:4]
+
+    #create comments for posts
+    new_comment = None
+    if request.user.is_authenticated:
 
     #create comments for posts
     new_comment = None
