@@ -26,7 +26,7 @@ def post_detail(request, slug):
     post = Post.published.get(slug = slug)
     post_tags_ids = post.tags.values_list('id', flat = True)
     similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
-    similar_posts = similar_posts(same_page = Count('tags')).order_by('-same_page', '-publish')[:4]
+    similar_posts = similar_posts.annotate(same_page = Count('tags')).order_by('-same_page', '-publish')[:4]
 
     #create comments for posts
     new_comment = None
