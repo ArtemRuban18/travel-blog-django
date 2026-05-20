@@ -5,7 +5,7 @@ from django.urls import reverse
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     bio = models.TextField(blank = True)
-    image = models.ImageField( upload_to='users/%Y/%m/%d', blank = True)
+    image = models.ImageField( upload_to='users/%Y/%m/%d', blank = True, default = 'users/default.jpg')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
