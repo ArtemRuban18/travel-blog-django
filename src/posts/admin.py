@@ -19,7 +19,7 @@ class PostAdmin(admin.ModelAdmin):
     readonly_fields = ['views']
 
     def tags_list(self, obj):
-        return ', '.join(t for t in obj.tags.all())
+        return ', '.join(tag.name for tag in obj.tags.all())
     
     def image_preview(self, obj):
         if obj.image:
