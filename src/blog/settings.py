@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'taggit',
     'django.contrib.postgres',
     'posts.apps.PostsConfig',
-    'user.apps.UserConfig'
+    'user.apps.UserConfig',
+    'actions.apps.ActionsConfig',
 ]
 
 MIDDLEWARE = [
