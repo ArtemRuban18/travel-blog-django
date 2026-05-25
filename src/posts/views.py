@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Category, Comment
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CommentForm
+from .forms import CommentForm, PostForm
 from .forms import SearchForm
 from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.auth.decorators import login_required
+from .signals import send_notification_email
 
 def post_list(request, category_slug = None):
     posts = Post.published.all()
@@ -60,3 +62,18 @@ def post_search(request):
         'query': query,
         'results': results
     })
+
+@login_required
+def post_create(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit = False)
+            post.author = request.user
+            post.save()
+            form.save_m2m()
+            send_notification_email(sender=Post, instance=post, created=True)
+            return redirect(post.get_absolute_url())
+    else:
+        form = PostForm()
+    return render(request, 'post_create.html', {'form': form})
