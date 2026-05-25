@@ -28,7 +28,7 @@ DEBUG = config('DEBUG', default=False, cast = bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost').split(',')
 
-
+SITE_ID = 1
 
 # Application definition
 
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'taggit',
     'django.contrib.postgres',
     'posts.apps.PostsConfig',
