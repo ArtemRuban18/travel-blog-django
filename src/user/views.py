@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import UserRegisterForm, UserLoginForm
 from .models import Profile
+from posts.models import Post
+from django.contrib.auth.models import User
 
 
 def register(request):
@@ -34,3 +36,12 @@ def user_login(request):
     else:
         form  = UserLoginForm()
     return render(request, 'user/login.html', {'form': form})
+
+def user_profile(request, username):
+    user = get_object_or_404(User, username = username)
+    profile = get_object_or_404(Profile, user = user)
+    posts = Post.published.filter(author = user).select_related('author')
+    return render(request, 'user_profile.html', {
+        'posts':posts,
+        'profile': profile,
+    })

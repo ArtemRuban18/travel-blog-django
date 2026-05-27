@@ -25,4 +25,6 @@ urlpatterns = [
 
     path('password_change/done/', 
         auth_views.PasswordChangeDoneView.as_view(template_name = 'user/password_change_done.html'), name = 'password_change_done'),
+
+    path('<str:username>/', views.user_profile, name = 'user_profile')
 ]

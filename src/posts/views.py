@@ -7,6 +7,7 @@ from .forms import SearchForm
 from django.contrib.postgres.search import TrigramSimilarity
 from django.contrib.auth.decorators import login_required
 from .signals import send_notification_email
+from django.core.exceptions import PermissionDenied
 
 def post_list(request, category_slug = None):
     posts = Post.published.all()
@@ -26,7 +27,7 @@ def post_list(request, category_slug = None):
     return render(request, 'post_list.html', {'posts': posts})
 
 def post_detail(request, slug):
-    post = Post.published.get(slug = slug)
+    post = get_object_or_404(Post.published, slug = slug)
     post_tags_ids = post.tags.values_list('id', flat = True)
     similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
     similar_posts = similar_posts.annotate(same_page=Count('tags')).order_by('-same_page', '-publish')[:4]
@@ -77,3 +78,17 @@ def post_create(request):
     else:
         form = PostForm()
     return render(request, 'post_create.html', {'form': form})
+
+@login_required
+def post_edit(request, slug):
+    post = get_object_or_404(Post.published, slug = slug)
+    if request.user != post.author:
+        raise PermissionDenied
+    if request.method == 'PUT':
+        form = PostForm(request.PUT, request.FILES, instance = post)
+        if form.is_valid():
+            form.save()
+            return redirect(post.get_absolute_url())
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'post_edit.html', {'form':form})
