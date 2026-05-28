@@ -39,7 +39,7 @@ class Post(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('post_detail', args=[self.slug])
+        return reverse('posts:post_detail', args=[self.slug])
     
 class Category(models.Model):
     name = models.CharField(max_length = 250, unique = True, blank = False)

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,9 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'taggit',
     'django.contrib.postgres',
-    'posts.apps.PostsConfig',
-    'user.apps.UserConfig',
-    'actions.apps.ActionsConfig',
+    'apps.posts.apps.PostsConfig',
+    'apps.user.apps.UserConfig',
+    'apps.actions.apps.ActionsConfig',
 ]
 
 MIDDLEWARE = [
@@ -63,7 +64,7 @@ ROOT_URLCONF = 'blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR / 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

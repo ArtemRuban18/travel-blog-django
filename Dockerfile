@@ -24,7 +24,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 
-COPY src/ .
+COPY . .
 
 RUN adduser --disabled-password --gecos '' appuser && chown -R appuser:appuser /app
 
@@ -32,4 +32,4 @@ USER appuser
 
 EXPOSE 8000
 
-CMD ["python", "src/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import UserRegisterForm, UserLoginForm
 from .models import Profile
-from posts.models import Post
+from apps.posts.models import Post
 from django.contrib.auth.models import User
 
 

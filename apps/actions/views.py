@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from posts.models import Post, Comment
+from apps.posts.models import Post, Comment
 from .models import Likes
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
