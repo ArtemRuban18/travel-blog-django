@@ -33,6 +33,7 @@ services:
         condition: service_healthy
     volumes:
       - .:/app
+      - ./media:/app/media
   db:
     image: postgres:16
     container_name: travel_blog_db
