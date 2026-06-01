@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <title>TRAVELblog</title> 
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <a href="{% url 'posts:post_list' %}" id="logo-link">
+                <img src="{% static 'images/logo.png' %}" alt="TRAVELblog Logo" class="logo">
+            </a>
+        </div>
+        <div class="header-center">
+            {% for category in categories %}
+                <a href="{% url 'posts:post_list_by_category' category.slug %}" class="category-link">
+                    {{ category.name }}
+                </a>
+            {% endfor %}
+        </div>
+        <div class="header-right auth">
+            {% if user.is_authenticated %}
+                <a href="{% url 'user:user_profile' user.username %}" class="profile-link">
+                
+                    {% if user.is_authenticated and user.profile.image %}
+                        <img src="{{ user.profile.image.url }}" alt="profile" class="profile-image">
+                    {% else %}
+                        <span>Profile</span>
+                    {% endif %}
+                
+                </a>
+                <form method="post" action="{% url 'user:logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-button">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'user:login' %}" class="auth-link">Login</a>
+                <a href="{% url 'user:register' %}" class="auth-link">Register</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="content">
+        {% block content %} {% endblock %}
+    </div>  
+    <div class="footer">
+        <p>&copy; 2024 TRAVELblog. All rights reserved.</p>
+    </div>
+</body>
+</html>
