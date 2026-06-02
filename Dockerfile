@@ -26,7 +26,9 @@ COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/pytho
 
 COPY . .
 
-RUN adduser --disabled-password --gecos '' appuser && chown -R appuser:appuser /app
+RUN adduser --disabled-password --gecos '' appuser && \
+    mkdir -p /app/media /app/static && \
+    chown -R appuser:appuser /app
 
 USER appuser
 
