@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'posts/css/post_list.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="search">
+        <form action="{% url 'posts:post_search' %}" method="get">
+            <input type="text" name="query" placeholder="Search posts..." value="{{ request.GET.query }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <h2>Posts</h2>
+    <ul>
+        {% for post in results %}
+        <li>
+            <a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a>
+            <p>{{ post.body|truncatechars:100 }}</p>
+        </li>
+        {% empty %}
+        <li>No posts available.</li>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        {% if results.has_previous %}
+        <a
+            href="?page={{ results.previous_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">Previous</a>
+        {% endif %}
+        <span>Page {{ results.number }} of {{ results.paginator.num_pages }}</span>
+        {% if results.has_next %}
+        <a
+            href="?page={{ results.next_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}">Next</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

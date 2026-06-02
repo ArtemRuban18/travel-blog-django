@@ -11,9 +11,9 @@ sitemaps = {
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
+    path('search/', views.post_search, name = 'post_search'),
     path('category/<slug:category_slug>/', views.post_list, name = 'post_list_by_category'),
     path('<slug:slug>/', views.post_detail, name = 'post_detail'),
-    path('search/', views.post_search, name = 'post_search'),
     path('create/', views.post_create, name = 'post_create'),
     path('edit-post/<slug:slug>/', views.post_edit, name = 'post_edit'),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name = 'django.contrib.sitemaps.views.sitemap'),

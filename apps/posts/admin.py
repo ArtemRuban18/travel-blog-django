@@ -5,7 +5,7 @@ from .models import Post, Category, Comment
 class PostAdmin(admin.ModelAdmin):
     list_display = ['title',
                     'slug', 
-                    'body', 
+                    'short_body', 
                     'author', 
                     'category',
                     'image_preview',
@@ -25,6 +25,11 @@ class PostAdmin(admin.ModelAdmin):
         if obj.image:
             return obj.image.url
         return "No image"
+
+    def short_body(self, obj):
+        return obj.body[:50] + "..."
+
+    short_body.short_description = "Content"
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
