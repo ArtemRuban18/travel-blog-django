@@ -1,0 +1,152 @@
+/* Post Detail */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Georgia, serif;
+    background-color: #faf8f3;
+}
+
+h1, h2 {
+    color: #6d5636;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.post-image {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    display: block;
+    object-fit: cover;
+}
+
+.post-meta {
+    color: #8b7355;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.post-body {
+    background: white;
+    padding: 20px;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    line-height: 1.7;
+    color: #333;
+}
+
+.back-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #8b6f47;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.back-link:hover {
+    background-color: #6d5636;
+}
+
+/* Comments */
+.comments h3 {
+    color: #6d5636;
+    font-size: 18px;
+    margin-top: 30px;
+}
+
+.comment-form {
+    background: white;
+    padding: 15px;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.comment-form form p {
+    margin: 10px 0;
+}
+
+.comment-form input,
+.comment-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #a0826d;
+    border-radius: 4px;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.comment-form button {
+    padding: 8px 16px;
+    background-color: #8b6f47;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comment-form button:hover {
+    background-color: #6d5636;
+}
+
+.comments-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comments-list li {
+    background: white;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.comments-list p {
+    margin: 5px 0;
+    color: #333;
+}
+
+/* Similar Posts */
+.similar-posts {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #d4c4b0;
+}
+
+.similar-posts h3 {
+    color: #6d5636;
+    font-size: 18px;
+}
+
+.similar-posts ul {
+    list-style: none;
+    padding: 0;
+}
+
+.similar-posts li {
+    padding: 10px;
+    margin-bottom: 8px;
+    background: white;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+}
+
+.similar-posts a {
+    color: #8b6f47;
+    text-decoration: none;
+}
+
+.similar-posts a:hover {
+    text-decoration: underline;
+}

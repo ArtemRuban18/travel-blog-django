@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'posts/css/post_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ post.title }}</h1>
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+    {% else %}
+        <img src="{% static 'posts/images/default-post-image.jpg' %}" alt="{{ post.title }}" class="post-image">
+    {% endif %}
+    <div class="post-meta">
+        <p>Published on {{ post.created_at }} | Author: {{ post.author.username }}</p>
+    </div>
+    
+    <div class="post-body">
+        {{ post.body }}
+    </div>
+    
+    <a href="{% url 'posts:post_list' %}" class="back-link">← Back to Posts</a>
+    
+    <div class="comments">
+        <h3>Comments</h3>
+        
+        <div class="comment-form">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add Comment</button>
+            </form>
+        </div>
+        
+        <ul class="comments-list">
+            {% for comment in comments %}
+            <li>
+                <strong>{{ comment.user.username }}</strong> - {{ comment.created_at }}
+                <p>{{ comment.text }}</p>
+            </li>
+            {% empty %}
+            <li>No comments yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    {% if similar_posts %}
+    <div class="similar-posts">
+        <h3>Similar Posts</h3>
+        <ul>
+            {% for similar_post in similar_posts %}
+            <li><a href="{% url 'posts:post_detail' similar_post.slug %}">{{ similar_post.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

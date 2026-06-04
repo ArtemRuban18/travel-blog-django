@@ -33,7 +33,6 @@ def post_detail(request, slug):
     similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
     similar_posts = similar_posts.annotate(same_page=Count('tags')).order_by('-same_page', '-publish')[:4]
 
-    #create comments for posts
     new_comment = None
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -41,12 +40,18 @@ def post_detail(request, slug):
             if form.is_valid():
                 new_comment = form.save(commit = False)
                 new_comment.post = post
+                new_comment.user = request.user
                 new_comment.save()
+                return redirect(post.get_absolute_url())
         else:
             form = CommentForm()
     else:
         return redirect('login')
-    return render(request, 'post_detail.html', {'form': form})
+    comments = post.comments.all()
+    return render(request, 'post_detail.html', {'form': form,
+                                                'post': post,
+                                                'similar_posts': similar_posts,
+                                                'comments': comments})
 
 def post_search(request):
     form = SearchForm(request.GET or None)
