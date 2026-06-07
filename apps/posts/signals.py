@@ -14,7 +14,7 @@ def send_notification_email(sender, instance, created, **kwargs):
     if not created:
         return
 
-    admins = list(User.objects.filter(is_staff=True, is_active=True, email__isnull=False))
+    admins = list(User.objects.filter(is_staff=True, email__isnull=False))
 
     if not admins:
         return

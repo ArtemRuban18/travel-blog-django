@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'user/css/user_profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-header">
+        {% if profile.image %}
+            {% if profile.image.url %}
+                <img src="{{ profile.image.url }}" alt="{{ profile.user.username }}'s Profile Picture" class="profile-picture">
+            {% endif %}
+        {% else %}
+        <img src="{% static 'user/images/default-profile-picture.jpg' %}" alt="{{ profile.user.username }}'s Profile Picture"
+            class="profile-picture">
+        {% endif %}
+        <h1>{{ profile.user.username }}</h1>
+    </div>
+    
+    <div class="profile-info">
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+        <p><strong>Joined:</strong> {{ profile.created_at }}</p>
+    </div>
+    
+    <div class="user-posts">
+        <h2>Posts</h2>
+        {% for post in posts %}
+            <div class="post-card">
+                <h3><a href="{% url 'posts:post_detail' post.slug %}">{{ post.title }}</a></h3>
+                <p>{{ post.created_at }}</p>
+            </div>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+/* Auth form container */
+.container {
+    max-width: 420px;
+    margin: 40px auto;
+    padding: 28px;
+    background-color: #faf8f3;
+    border: 1px solid #d4c4b0;
+    border-radius: 6px;
+    font-family: Georgia, serif;
+}
+
+.container h2 {
+    margin-top: 0;
+    color: #6d5636;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+form {
+    display: grid;
+    gap: 18px;
+}
+
+form p {
+    margin: 0;
+}
+
+form label {
+    display: block;
+    color: #6d5636;
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #a0826d;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    outline: none;
+    border-color: #8b6f47;
+    background-color: #fff;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px 14px;
+    background-color: #8b6f47;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #6d5636;
+}
+
+p {
+    color: #333;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+p a {
+    color: #8b6f47;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+    color: #6d5636;
+}
+
+.errorlist {
+    margin: 0 0 10px;
+    padding: 0;
+    list-style: none;
+    color: #d32f2f;
+    font-size: 13px;
+}
+
+.errorlist li {
+    margin-bottom: 6px;
+}

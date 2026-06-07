@@ -6,13 +6,12 @@
 
 {% block content %}
 <div class="container">
-    <h2>Login</h2>
+    <h2>Sign Up</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Login</button>
+        <button type="submit">Sign Up</button>
     </form>
-    <p>Don't have an account? <a href="{% url 'user:register' %}">Register here</a>.</p>
-    <p><a href="{% url 'user:password_reset' %}">Forgot your password?</a></p>
+    <p>Already have an account? <a href="{% url 'user:login' %}">Log in here</a>.</p>
 </div>
 {% endblock %}

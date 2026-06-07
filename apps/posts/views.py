@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, PostForm
 from .forms import SearchForm
-from django.contrib.postgres.search import TrigramSimilarity
+from django.contrib.postgres.search import TrigramSimilarity, SearchVector
 from django.contrib.auth.decorators import login_required
 from .signals import send_notification_email
 from django.core.exceptions import PermissionDenied
@@ -29,29 +29,35 @@ def post_list(request, category_slug = None):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post.published, slug = slug)
+    post.views += 1
+    post.save()
     post_tags_ids = post.tags.values_list('id', flat = True)
     similar_posts = Post.published.filter(tags__in = post_tags_ids).exclude(id = post.id)
     similar_posts = similar_posts.annotate(same_page=Count('tags')).order_by('-same_page', '-publish')[:4]
 
+    comments = post.comments.order_by('-created_at')
     new_comment = None
-    if request.user.is_authenticated:
-        if request.method == 'POST':
-            form = CommentForm(request.POST)
-            if form.is_valid():
-                new_comment = form.save(commit = False)
-                new_comment.post = post
-                new_comment.user = request.user
-                new_comment.save()
-                return redirect(post.get_absolute_url())
-        else:
-            form = CommentForm()
+
+    if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return redirect('login')
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.post = post
+            new_comment.user = request.user
+            new_comment.save()
+            return redirect(post.get_absolute_url())
     else:
-        return redirect('login')
-    comments = post.comments.all()
-    return render(request, 'post_detail.html', {'form': form,
-                                                'post': post,
-                                                'similar_posts': similar_posts,
-                                                'comments': comments})
+        form = CommentForm()
+
+    return render(request, 'post_detail.html', {
+        'post': post,
+        'comments': comments,
+        'form': form,
+        'similar_posts': similar_posts,
+        'new_comment': new_comment,
+    })
 
 def post_search(request):
     form = SearchForm(request.GET or None)
@@ -62,13 +68,9 @@ def post_search(request):
         query = form.cleaned_data['query']
 
         results = Post.published.annotate(
-            title_sim=TrigramSimilarity('title', query),
-            body_sim=TrigramSimilarity('body', query),
-        ).annotate(
-            similarity=F('title_sim') + F('body_sim')
-        ).filter(
-            similarity__gt=0.3
-        ).order_by('-similarity')
+            search_vector = SearchVector('title', 'body'),
+            similarity = TrigramSimilarity('title', query) + TrigramSimilarity('body', query)
+        ).filter(search_vector=query).order_by('-similarity')
 
     return render(request, 'post_search.html', {
         'form': form,
