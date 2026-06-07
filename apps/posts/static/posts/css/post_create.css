@@ -1,0 +1,109 @@
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Georgia, serif;
+    background-color: #faf8f3;
+}
+
+/* Title */
+h1 {
+    color: #6d5636;
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Form */
+form {
+    background: white;
+    padding: 25px;
+    border: 1px solid #d4c4b0;
+    border-radius: 4px;
+}
+
+form p {
+    margin-bottom: 20px;
+}
+
+/* Form Labels */
+label {
+    display: block;
+    color: #6d5636;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Form Inputs */
+input[type="text"],
+input[type="email"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #a0826d;
+    border-radius: 4px;
+    font-family: Georgia, serif;
+    font-size: 14px;
+    background-color: #faf8f3;
+    box-sizing: border-box;
+    color: #333;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="file"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #8b6f47;
+    background-color: #ffffff;
+}
+
+/* Buttons */
+button[type="submit"] {
+    padding: 12px 30px;
+    background-color: #8b6f47;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Georgia, serif;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #6d5636;
+}
+
+/* Error Messages */
+.errorlist {
+    color: #d32f2f;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.errorlist li {
+    margin-bottom: 5px;
+}
+
+/* Help Text */
+.helptext {
+    display: block;
+    color: #8b7355;
+    font-size: 12px;
+    margin-top: 5px;
+    font-style: italic;
+}
