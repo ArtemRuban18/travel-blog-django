@@ -16,19 +16,6 @@
     {% endif %}
     <div class="post-meta">
         <p>Published on {{ post.created_at }} | Author: {{ post.author.username }}</p>
-        <div class="post-likes">
-            <span><strong>{{ post_likes_count }}</strong> like{{ post_likes_count|pluralize }}</span>
-            {% if user.is_authenticated %}
-            <form method="post" action="{% url 'actions:like_post' post.slug %}" class="like-form">
-                {% csrf_token %}
-                <button type="submit" class="like-button">
-                    {% if user_liked_post %}Unlike{% else %}Like{% endif %}
-                </button>
-            </form>
-            {% else %}
-            <a href="{% url 'user:login' %}" class="like-button">Login to like</a>
-            {% endif %}
-        </div>
     </div>
     
     <div class="post-body">
