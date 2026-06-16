@@ -16,6 +16,7 @@
             class="profile-picture">
         {% endif %}
         <h1>{{ profile.user.username }}</h1>
+        <a href="{% url 'posts:post_create' %}" class="create-post-link">Create New Post</a>
     </div>
     
     <div class="profile-info">
